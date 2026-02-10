@@ -141,11 +141,12 @@ C:\Workspace\prometheus-config-yml>
 ```
 
 # To stop and start grafana::-
-docker stop grafana
+```docker stop grafana
 docker start grafana
+```
+#### Grafana username: admin and password: sisu
 
-### Grafana username: admin and password: sisu
-
+# execute some query inside grafana 
 ```Grafana->Dashboard->visulaize->add datasource as Prometheus ->then select metric and see graph
 HTTP request count:	http_server_requests_seconds_count	(Counts all HTTP requests)
 HTTP request duration:	http_server_requests_seconds_sum / http_server_requests_seconds_count	(Average request duration)
