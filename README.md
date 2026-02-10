@@ -24,25 +24,15 @@ Add the following dependencies in your `pom.xml`:
 </dependency>
 
 
-- `properties` → tells GitHub to highlight as properties file.  
-- All the configuration goes **inside**, not on the opening backticks line.  
-
----
-
-### **2️⃣ Full Example for Your README**
-
-```markdown
 ## Why should I add both Actuator and Prometheus?
 
-- **Actuator:** produces metrics (Metric collection via Micrometer: JVM, HTTP, CPU, memory, GC, custom metrics)  
-- **Micrometer Prometheus registry:** exposes them in Prometheus format (Converts Micrometer metrics into Prometheus’s text format and exposes at `/actuator/prometheus`)
+- **Actuator:** produces metrics (Metric collection via Micrometer: JVM, HTTP, CPU, memory, GC, custom metrics)
+- **Micrometer Prometheus registry:** exposes them in Prometheus format at `/actuator/prometheus`.
 
 | Configuration            | Metrics Collected | Prometheus Endpoint |
 |--------------------------|-----------------|------------------|
 | Only Actuator            | ✅ Yes          | ❌ No             |
 | Only Prometheus registry | ❌ No           | ❌ No             |
-
----
 
 ## application.properties
 
