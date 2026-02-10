@@ -141,10 +141,11 @@ C:\Workspace\prometheus-config-yml>
 ```
 
 # To stop and start grafana::-
-```docker stop grafana
+```
+docker stop grafana
 docker start grafana
 ```
-#### Grafana username: admin and password: sisu
+##### Grafana username: admin and password: sisu
 
 # execute some query inside grafana 
 ```Grafana->Dashboard->visulaize->add datasource as Prometheus ->then select metric and see graph
