@@ -60,7 +60,7 @@ public class HelloController {
 http://localhost:8080/hello
 Hello Prometheus!
 
-See application is running fine...Then check actuator with prometheus..hit in browser **http://localhost:8080/actuator/prometheus**
+See application is running fine...Then check actuator with prometheus..hit in browser http://localhost:8080/actuator/prometheus
  HELP application_ready_time_seconds Time taken for the application to be ready to service requests
  TYPE application_ready_time_seconds gauge
  application_ready_time_seconds{main_application_class="com.niranjana.project.SpringPrometheusGrafanaApplication"} 1.501
