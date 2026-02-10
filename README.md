@@ -87,4 +87,68 @@ My file location:-C:\Workspace\prometheus-config-yml\prometheus.yml
 =>then go to cmd->open that folder location then execute below command::-
 :\Workspace\prometheus-config-yml>docker ps
 CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+
+C:\Workspace\prometheus-config-yml>docker run -d --name prometheus -p 9090:9090 -v C:\Workspace\prometheus-config-yml\prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus
+Unable to find image 'prom/prometheus:latest' locally
+latest: Pulling from prom/prometheus
+d0f7326b7716: Pull complete
+37404d8f503a: Pull complete
+b30c77c91326: Pull complete
+3dccafa3f67b: Pull complete
+d76a56e8adff: Pull complete
+d956c9c5fe9e: Pull complete
+9d85dc8d0609: Pull complete
+e5d54fbf8ee1: Pull complete
+1dccce9f415d: Pull complete
+1d8e8fd2e272: Pull complete
+Digest: sha256:1f0f50f06acaceb0f5670d2c8a658a599affe7b0d8e78b898c1035653849a702
+Status: Downloaded newer image for prom/prometheus:latest
+81b9f041e80b894faff1e53f9549b9c7d4eebf88480117b8d0eef8b815fa82d0
+
+C:\Workspace\prometheus-config-yml>docker ps
+CONTAINER ID   IMAGE             COMMAND                  CREATED          STATUS          PORTS                                         NAMES
+81b9f041e80b   prom/prometheus   "/bin/prometheus --c…"   28 seconds ago   Up 28 seconds   0.0.0.0:9090->9090/tcp, [::]:9090->9090/tcp   prometheus
+
+Here -p 9090:9090 → expose Prometheus UI to your browser and -v ... → load your configuration file
+
+=>Now Go to browser and hit : http://localhost:9090 it will open prometheus dashboard then..
+=>You can see Prometheus UI → Status → Targets → spring-boot-demo should be UP
+```
+# To stop and start prometheus
+docker stop prometheus
+docker start prometheus
+
+# To see the grafically chart, also run grafana inside docker::
+```cmd->run below command
+C:\Workspace\prometheus-config-yml>docker run -d -p 3000:3000 --name=grafana -e "GF_SECURITY_ADMIN_USER=admin" -e "GF_SECURITY_ADMIN_PASSWORD=admin" grafana/grafana:latest
+Unable to find image 'grafana/grafana:latest' locally
+latest: Pulling from grafana/grafana
+ec479bafece9: Pull complete
+014e56e61396: Pull complete
+9e053de6cb63: Pull complete
+c00447c3619a: Pull complete
+07af56023d33: Pull complete
+9d54a595d298: Pull complete
+6139928abb9b: Pull complete
+34a7268ff0f5: Pull complete
+671912a993db: Pull complete
+0df2602ce2c1: Pull complete
+Digest: sha256:ba93c9d192e58b23e064c7f501d453426ccf4a85065bf25b705ab1e98602bfb1
+Status: Downloaded newer image for grafana/grafana:latest
+7d5e71aaf4db543c6911b12ac24e3b734a1449456364e41c66aa2e1273b9e405
+
+C:\Workspace\prometheus-config-yml>
+```
+
+# To stop and start grafana::-
+docker stop grafana
+docker start grafana
+
+### Grafana username: admin and password: sisu
+
+```Grafana->Dashboard->visulaize->add datasource as Prometheus ->then select metric and see graph
+HTTP request count:	http_server_requests_seconds_count	(Counts all HTTP requests)
+HTTP request duration:	http_server_requests_seconds_sum / http_server_requests_seconds_count	(Average request duration)
+JVM memory used:	jvm_memory_used_bytes{area="heap"}	(Heap memory usage)
+JVM threads:	jvm_threads_live_threads	(Number of live threads)
 ```
