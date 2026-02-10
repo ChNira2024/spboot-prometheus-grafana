@@ -45,7 +45,8 @@ management.endpoint.health.show-details=always
 ```
 ## Controller
 Add the following in your `controller package`:
-```@RestController
+```
+@RestController
 public class HelloController {
 
     @GetMapping("/hello")
@@ -55,10 +56,11 @@ public class HelloController {
 }
 ```
 #### Once Spring boot application is ready, then go to browser and hit: 
-```http://localhost:8080/hello
+```
+http://localhost:8080/hello
 Hello Prometheus!
- See application is running fine...Then check actuator with prometheus..hit in browser
-http://localhost:8080/actuator/prometheus
+
+See application is running fine...Then check actuator with prometheus..hit in browser **http://localhost:8080/actuator/prometheus**
  HELP application_ready_time_seconds Time taken for the application to be ready to service requests
  TYPE application_ready_time_seconds gauge
  application_ready_time_seconds{main_application_class="com.niranjana.project.SpringPrometheusGrafanaApplication"} 1.501
@@ -73,9 +75,9 @@ application_started_time_seconds{main_application_class="com.niranjana.project.S
 # To run prometheus inside docker
 ```First docker installation must be there in your laptop.
 =>Then in your laptop,  Create a folder "prometheus-config-yml" folder and inside that folder create below .yml file ::-
+
 global:
   scrape_interval: 5s
-
 scrape_configs:
   - job_name: 'spring-prometheus-grafana'
     metrics_path: '/actuator/prometheus'
