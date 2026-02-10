@@ -141,7 +141,10 @@ Status: Downloaded newer image for grafana/grafana:latest
 
 C:\Workspace\prometheus-config-yml>
 ```
-
+#### Open Grafana url:
+```
+http://localhost:3000
+```
 # To stop and start grafana::-
 ```
 docker stop grafana
