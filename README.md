@@ -23,24 +23,32 @@ Add the following dependencies in your `pom.xml`:
     <optional>true</optional>
 </dependency>
 
-## why should i add both actuator and prometheus?
-Actuator = produces metrics(Metric collection via Micrometer (JVM, HTTP, CPU, memory, GC, custom metrics)
-Micrometer Prometheus registry = exposes them in Prometheus format(Converts Micrometer metrics into Prometheus’s text format and then Exposes them at /actuator/prometheus
 
-Only Actuator
-Metrics collected ✅
-Prometheus endpoint ❌
+- `properties` → tells GitHub to highlight as properties file.  
+- All the configuration goes **inside**, not on the opening backticks line.  
 
-Only Prometheus registry
-Prometheus format available ❌ (no metrics source)
-No actuator endpoints ❌
+---
 
+### **2️⃣ Full Example for Your README**
 
+```markdown
+## Why should I add both Actuator and Prometheus?
+
+- **Actuator:** produces metrics (Metric collection via Micrometer: JVM, HTTP, CPU, memory, GC, custom metrics)  
+- **Micrometer Prometheus registry:** exposes them in Prometheus format (Converts Micrometer metrics into Prometheus’s text format and exposes at `/actuator/prometheus`)
+
+| Configuration            | Metrics Collected | Prometheus Endpoint |
+|--------------------------|-----------------|------------------|
+| Only Actuator            | ✅ Yes          | ❌ No             |
+| Only Prometheus registry | ❌ No           | ❌ No             |
+
+---
 
 ## application.properties
-Add the following in your `application.properties`: 
+
+Add the following in your `application.properties`:
 
 ```properties
-server.port=8080 
+server.port=8080
 management.endpoints.web.exposure.include=health,info,metrics,prometheus
-management.endpoint.health.show-details=always 
+management.endpoint.health.show-details=always
