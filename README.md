@@ -23,7 +23,7 @@ Add the following dependencies in your `pom.xml`:
     <optional>true</optional>
 </dependency>
 
-Q)why should i add both actuator and prometheus?
+## why should i add both actuator and prometheus?
 Actuator = produces metrics(Metric collection via Micrometer (JVM, HTTP, CPU, memory, GC, custom metrics)
 Micrometer Prometheus registry = exposes them in Prometheus format(Converts Micrometer metrics into Prometheus’s text format and then Exposes them at /actuator/prometheus
 
@@ -40,6 +40,7 @@ No actuator endpoints ❌
 ## application.properties
 Add the following in your `application.properties`: 
 
-``` server.port=8080 
+```properties
+server.port=8080 
 management.endpoints.web.exposure.include=health,info,metrics,prometheus
 management.endpoint.health.show-details=always 
