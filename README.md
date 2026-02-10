@@ -22,7 +22,7 @@ Add the following dependencies in your `pom.xml`:
     <artifactId>lombok</artifactId>
     <optional>true</optional>
 </dependency>
-
+```
 
 ## Why should I add both Actuator and Prometheus?
 
