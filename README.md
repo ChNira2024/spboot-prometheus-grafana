@@ -144,7 +144,7 @@ C:\Workspace\prometheus-config-yml>
 #### Open Grafana url:
 ```
 http://localhost:3000
-Grafana username: admin and password: sisu
+Grafana username: admin and password: sisu (Grafana will ask to set your own password)
 ```
 # To stop and start grafana::-
 ```
