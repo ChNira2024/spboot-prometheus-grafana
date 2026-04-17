@@ -140,6 +140,7 @@ Status: Downloaded newer image for grafana/grafana:latest
 
 C:\Workspace\prometheus-config-yml>
 
+Grafana url:localhost:3000
 
 To stop and start grafana::-
 ---------------------
