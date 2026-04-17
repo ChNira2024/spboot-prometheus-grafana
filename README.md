@@ -1,47 +1,51 @@
-Prometheus Setup in Spring-Boot
-===============================
+# Prometheus Setup in Spring-Boot
 
-Dependency
-----------
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-actuator</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-webmvc</artifactId>
-		</dependency>
+## Dependencies
+Add the following dependencies in your `pom.xml`:
 
-		<dependency>
-			<groupId>io.micrometer</groupId>
-			<artifactId>micrometer-registry-prometheus</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<optional>true</optional>
-		</dependency>
-Q)why should i add both actuator and prometheus?
-Actuator = produces metrics(Metric collection via Micrometer (JVM, HTTP, CPU, memory, GC, custom metrics)
-Micrometer Prometheus registry = exposes them in Prometheus format(Converts Micrometer metrics into Prometheus’s text format and then Exposes them at /actuator/prometheus
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-actuator</artifactId>
+</dependency>
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-webmvc</artifactId>
+</dependency>
+<dependency>
+    <groupId>io.micrometer</groupId>
+    <artifactId>micrometer-registry-prometheus</artifactId>
+    <scope>runtime</scope>
+</dependency>
+<dependency>
+    <groupId>org.projectlombok</groupId>
+    <artifactId>lombok</artifactId>
+    <optional>true</optional>
+</dependency>
+```
 
-Only Actuator
-Metrics collected ✅
-Prometheus endpoint ❌
+## Why should I add both Actuator and Prometheus?
 
-Only Prometheus registry
-Prometheus format available ❌ (no metrics source)
-No actuator endpoints ❌
+- **Actuator:** produces metrics (Metric collection via Micrometer: JVM, HTTP, CPU, memory, GC, custom metrics)
+- **Micrometer Prometheus registry:** exposes them in Prometheus format at `/actuator/prometheus`.
 
-application.properties
-----------------------
+| Configuration            | Metrics Collected | Prometheus Endpoint |
+|--------------------------|-----------------|------------------|
+| Only Actuator            | ✅ Yes          | ❌ No             |
+| Only Prometheus registry | ❌ No           | ❌ No             |
+
+## application.properties
+
+Add the following in your `application.properties`:
+
+```properties
 server.port=8080
 management.endpoints.web.exposure.include=health,info,metrics,prometheus
 management.endpoint.health.show-details=always
-
-Controller
-----------
+```
+## Controller
+Add the following in your `controller package`:
+```
 @RestController
 public class HelloController {
 
@@ -50,30 +54,30 @@ public class HelloController {
         return "Hello Prometheus!";
     }
 }
-Once Spring boot application is ready, then go to browser and hit: 
+```
+#### Once Spring boot application is ready, then go to browser and hit: 
+```
 http://localhost:8080/hello
 Hello Prometheus!
 
-See application is running fine...Then check actuator with prometheus..hit in browser
-http://localhost:8080/actuator/prometheus
-# HELP application_ready_time_seconds Time taken for the application to be ready to service requests
-# TYPE application_ready_time_seconds gauge
-application_ready_time_seconds{main_application_class="com.niranjana.project.SpringPrometheusGrafanaApplication"} 1.501
-# HELP application_started_time_seconds Time taken to start the application
-# TYPE application_started_time_seconds gauge
+See application is running fine...Then check actuator with prometheus..hit in browser http://localhost:8080/actuator/prometheus
+ HELP application_ready_time_seconds Time taken for the application to be ready to service requests
+ TYPE application_ready_time_seconds gauge
+ application_ready_time_seconds{main_application_class="com.niranjana.project.SpringPrometheusGrafanaApplication"} 1.501
+ HELP application_started_time_seconds Time taken to start the application
+ TYPE application_started_time_seconds gauge
 application_started_time_seconds{main_application_class="com.niranjana.project.SpringPrometheusGrafanaApplication"} 1.438
-# HELP disk_free_bytes Usable space for path
+ HELP disk_free_bytes Usable space for path
+```
+#### Note: But prometheus provides details are text file , Normally we can't understand ..So mostly use prometheuse server to see it graph..
+#### But in my laptop prometheus server is not there..So that i want to run prometheus inside docker...
 
-Note: But prometheus provides details are text file , Normally we can't understand ..So mostly use prometheuse server to see it graph..
-But in my laptop prometheus server is not there..So that i want to run prometheus inside docker...
-
-To run prometheus inside docker:
-------------------------------
-=>First docker installation must be there in your laptop.
+# To run prometheus inside docker
+```First docker installation must be there in your laptop.
 =>Then in your laptop,  Create a folder "prometheus-config-yml" folder and inside that folder create below .yml file ::-
+
 global:
   scrape_interval: 5s
-
 scrape_configs:
   - job_name: 'spring-prometheus-grafana'
     metrics_path: '/actuator/prometheus'
@@ -111,16 +115,13 @@ Here -p 9090:9090 → expose Prometheus UI to your browser and -v ... → load y
 
 =>Now Go to browser and hit : http://localhost:9090 it will open prometheus dashboard then..
 =>You can see Prometheus UI → Status → Targets → spring-boot-demo should be UP
-
-
-To stop and start prometheus::-
----------------------
+```
+# To stop and start prometheus
 docker stop prometheus
 docker start prometheus
 
-To see the grafically chart, also run grafana inside docker::
------------------------------------------------------
-cmd->run below command
+# To see the grafically chart, also run grafana inside docker::
+```cmd->run below command
 C:\Workspace\prometheus-config-yml>docker run -d -p 3000:3000 --name=grafana -e "GF_SECURITY_ADMIN_USER=admin" -e "GF_SECURITY_ADMIN_PASSWORD=admin" grafana/grafana:latest
 Unable to find image 'grafana/grafana:latest' locally
 latest: Pulling from grafana/grafana
@@ -139,21 +140,23 @@ Status: Downloaded newer image for grafana/grafana:latest
 7d5e71aaf4db543c6911b12ac24e3b734a1449456364e41c66aa2e1273b9e405
 
 C:\Workspace\prometheus-config-yml>
-
-Grafana url:localhost:3000
-=======
-Grafana url: localhost://3000
-Grafana username: admin and password: sisu
-2eaf1176b755c96828b60c3cb12b6dff2eb66c7e
-
-To stop and start grafana::-
----------------------
+```
+#### Open Grafana url:
+```
+http://localhost:3000
+Grafana username: admin and password: sisu (Grafana will ask to set your own password)
+```
+# To stop and start grafana::-
+```
 docker stop grafana
 docker start grafana
+```
 
---------------------------------------------------------
-Grafana->Dashboard->visulaize->add datasource as Prometheus ->then select metric and see graph
+
+# execute some query inside grafana 
+```Grafana->Dashboard->visulaize->add datasource as Prometheus ->then select metric and see graph
 HTTP request count:	http_server_requests_seconds_count	(Counts all HTTP requests)
 HTTP request duration:	http_server_requests_seconds_sum / http_server_requests_seconds_count	(Average request duration)
 JVM memory used:	jvm_memory_used_bytes{area="heap"}	(Heap memory usage)
 JVM threads:	jvm_threads_live_threads	(Number of live threads)
+```
